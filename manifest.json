@@ -6,16 +6,15 @@
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": {
-      "16": "/images/download_image16.png",
-      "32": "/images/download_image32.png",
       "48": "/images/download_image48.png",
+      "96": "/images/download_image96.png",
       "128": "/images/download_image128.png"
     }
   },
   "icons": {
-    "16": "/images/download_image16.png",
-    "32": "/images/download_image32.png",
+
     "48": "/images/download_image48.png",
+    "96": "/images/download_image96.png",
     "128": "/images/download_image128.png"
   },
   "permissions": [
@@ -26,12 +25,14 @@
     "https://www.zdf.de/",
     "https://api.zdf.de/"
   ],
+
+  "incognito": "split",
+
   "background": {
     "scripts": ["background.js"],
     "persistent": false
   },
   
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 
-  "comment#options_page": "options.html"
 }

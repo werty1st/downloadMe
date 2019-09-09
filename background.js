@@ -5,15 +5,17 @@
 'use strict';
 
 // Declare extension default properties
-let downloadsArray = [];
-let initialState = {
-  'savedImages': downloadsArray,
-  'thumbnails': false,
-  'saveImages': true
-};
+// let downloadsArray = [];
+// let initialState = {
+//   'savedImages': downloadsArray,
+//   'thumbnails': false,
+//   'saveImages': true
+// };
 
-// Set extension setting on installation
-chrome.runtime.onInstalled.addListener(function() {
+
+//workaround bug
+//https://stackoverflow.com/questions/25536703/how-to-enable-a-pageaction-icon-for-a-chrome-extension-in-incognito-mode/25537746
+function doReplaceRules() {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
     chrome.declarativeContent.onPageChanged.addRules([{
       conditions: [
@@ -28,5 +30,17 @@ chrome.runtime.onInstalled.addListener(function() {
       actions: [ new chrome.declarativeContent.ShowPageAction() ]
     }]);
   });
-  chrome.storage.local.set(initialState);
-});
+}
+
+if (chrome.extension.inIncognitoContext) {
+  doReplaceRules();
+} else {
+  chrome.runtime.onInstalled.addListener(doReplaceRules);
+}
+
+
+
+// // Set extension setting on installation
+// chrome.runtime.onInstalled.addListener(function() {
+//   //chrome.storage.local.set(initialState);
+// });
