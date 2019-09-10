@@ -1,10 +1,9 @@
-{
-  "name": "Download Video",
-  "description" : "Finds mp4 Links for you",
-  "version": "1.0",
+  {
+  "name": "Download Link for Video",
+  "description" : "Adds Download Icon to Video Element",
+  "version": "1.1",
   "manifest_version": 2,
   "page_action": {
-    "default_popup": "popup.html",
     "default_icon": {
       "48": "/images/download_image48.png",
       "96": "/images/download_image96.png",
@@ -12,7 +11,6 @@
     }
   },
   "icons": {
-
     "48": "/images/download_image48.png",
     "96": "/images/download_image96.png",
     "128": "/images/download_image128.png"
@@ -32,7 +30,14 @@
     "scripts": ["background.js"],
     "persistent": false
   },
-  
+
+  "content_scripts" : [{
+    "matches" : [ "https://www.zdf.de/*"],
+    "js" : ["content.js"],
+    "run_at": "document_start"
+  }],
+  "web_accessible_resources": [ "inject.js", "index-es.min.js" ],
+
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 
 }
