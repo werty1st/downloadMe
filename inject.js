@@ -1,4 +1,5 @@
 //http://jmespath.org/tutorial.html#multiselect
+// zip -1 -x "*screens*" -x "*/\.*" x ".*"  -x "*.zip" -r addon.zip .
 import * as JME from "./jmespath.js";
 
 
@@ -114,7 +115,12 @@ import * as JME from "./jmespath.js";
                 const info = parent.querySelector(".teaser-info");
                 const info2 = info.cloneNode(true);
                 info.parentElement.appendChild(info2);
-                info2.innerHTML = "<a href='"+ link + "'>💾Download</a>";
+                const a = document.createElement("a");
+                info2.innerHTML = "";
+                a.href = link;
+                a.text = "💾 Download";
+                info2.appendChild(a);
+                //info2.innerHTML = "<a href='"+ link + "'>💾 Download</a>";
 
             } else if (window.location.hostname.indexOf("3sat.de")>0){
                 //3sat style
@@ -122,9 +128,13 @@ import * as JME from "./jmespath.js";
                 const info = parent.querySelector("div.show-for-medium dt.attribute-list-title");
                 const info2 = info.cloneNode(true);
                 info.parentElement.appendChild(info2);
-                info2.innerHTML = "<a href='"+ link + "'>💾Download</a>";
+                //info2.innerHTML = "<a href='"+ link + "'>💾 Download</a>";
                 //attribute-list-title
-
+                const a = document.createElement("a");
+                info2.innerHTML = "";
+                a.href = link;
+                a.text = "💾 Download";
+                info2.appendChild(a);
             }
 
 

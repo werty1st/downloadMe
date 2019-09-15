@@ -1,7 +1,7 @@
   {
   "name": "Download Link for Video",
-  "description" : "Adds Download Icon to Video Element",
-  "version": "2.0",
+  "description" : "Adds Download Link to Video Element",
+  "version": "3.0",
   "manifest_version": 2,
   "page_action": {
     "default_icon": {
@@ -31,8 +31,8 @@
     "js" : ["content.js"],
     "run_at": "document_start"
   }],
-  "web_accessible_resources": [ "inject.js", "index-es.min.js", "jmespath.js" ],
+  "web_accessible_resources": [ "inject.js", "jmespath.js" ],
 
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self'; object-src 'self'"
 
 }
