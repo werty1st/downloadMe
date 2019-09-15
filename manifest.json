@@ -19,24 +19,19 @@
     "downloads",
     "storage",
     "activeTab",
-    "declarativeContent",
     "https://www.zdf.de/",
-    "https://api.zdf.de/"
+    "https://api.zdf.de/",
+    "https://www.3sat.de/",
+    "https://api.3sat.de/"
   ],
 
-  "incognito": "split",
-
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
-  },
 
   "content_scripts" : [{
-    "matches" : [ "https://www.zdf.de/*"],
+    "matches" : [ "https://www.zdf.de/*", "https://www.3sat.de/*" ] ,
     "js" : ["content.js"],
     "run_at": "document_start"
   }],
-  "web_accessible_resources": [ "inject.js", "index-es.min.js" ],
+  "web_accessible_resources": [ "inject.js", "index-es.min.js", "jmespath.js" ],
 
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 
