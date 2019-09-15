@@ -3,14 +3,19 @@ import {JSONPath} from './index-es.min.js';
 (async function() {
 
 
-    async function scanJson(formitaeten){
+    function scanJson(formitaeten){
 
         const links = { high: [], veryhigh: [] };
 
         links.high     = JSONPath({path: "$..formitaeten[?(@.mimeType=='video/mp4')].qualities[?(@.quality=='high')].audio.tracks[?(@.language=='deu')].uri", json: formitaeten});
         links.veryhigh = JSONPath({path: "$..formitaeten[?(@.mimeType=='video/mp4')].qualities[?(@.quality=='veryhigh')].audio.tracks[?(@.language=='deu')].uri", json: formitaeten});
 
-        return links;
+        if (links.veryhigh.length > 0) {
+            return links.veryhigh[0];
+        } else if (ink.high.length > 0) {
+            return links.high[0];
+        }
+        return "#noLink";
     }
 
 
@@ -32,18 +37,47 @@ import {JSONPath} from './index-es.min.js';
 
     //save to find ptmd link and help ptmd link to attach download icon
  
+    //todo
+    //save links in local storage
+    //add link before 2.nd urls return if found in localstorage
+    
+    var store = {};
     XHR.send = function() {    
         this.addEventListener('load', function() {
           
             if ( regex1.test(this.url) ){
                 //save basename and video (content=this.url)
-                console.log("intercept url1");
+                let content = JSON.parse(this.response);
                 //find ID
+                let id = content["mainVideoContent"]["http://zdf.de/rels/target"]["http://zdf.de/rels/streams/ptmd-template"];
                 //find video tag with id
+                //"/tmd/2/{playerId}/vod/ptmd/mediathek/190829_1_1_shs"
+                let basename = id.substring(id.lastIndexOf("/")+1);
+
+                //find element
+                let video = document.querySelector("div[data-zdfplayer-jsb]");
+                let dataJ = video.getAttribute("data-zdfplayer-jsb");
+                let data = JSON.parse(dataJ);
+                let url = data.content;
+
+                if (url == this.url){
+                    store[basename] = video; //keep ref to video tag for later
+                }
+                
 
             } else if ( regex2.test(this.url) ){
-                console.log("intercept url2");
-                scanJson( JSON.parse(this.response));
+                
+                let basename = this.url.substring(this.url.lastIndexOf("/")+1);
+                if (store[basename]){
+                    let link = scanJson( JSON.parse(this.response));
+                    //add download link to video
+                    let v1 = store[basename];
+                    let parent = v1.closest( ".x-row");
+                    let info = parent.querySelector(".teaser-info");
+                    let info2 = info.cloneNode(true);
+                    info.parentElement.appendChild(info2);
+                    info2.innerHTML = "<a href='"+ link + "'>Download 💾</a>";
+                }
             }
 
         });
