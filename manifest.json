@@ -1,7 +1,7 @@
   {
-  "name": "Download Link for Video",
+  "name": "Download Link for zdf and 3sat Videos",
   "description" : "Adds Download Link to Video Element",
-  "version": "3.0",
+  "version": "3.1",
   "manifest_version": 2,
   "page_action": {
     "default_icon": {

@@ -107,34 +107,38 @@ import * as JME from "./jmespath.js";
 
             //get video element from stage1
             const v1 = store[basename];
+            const aEl_factory = ()=>{ let a = document.createElement("a"); a.href = link; a.text = "💾 Download"; return a;}
 
             //detect 3sat OR zdf
             if (window.location.hostname.indexOf("zdf.de")>0){
                 //zdf style
                 const parent = v1.closest( ".x-row");
-                const info = parent.querySelector(".teaser-info");
-                const info2 = info.cloneNode(true);
-                info.parentElement.appendChild(info2);
-                const a = document.createElement("a");
-                info2.innerHTML = "";
-                a.href = link;
-                a.text = "💾 Download";
-                info2.appendChild(a);
-                //info2.innerHTML = "<a href='"+ link + "'>💾 Download</a>";
+                const elA1 = parent.querySelector(".teaser-info");
+                const elA2 = elA1.cloneNode(true);
+                elA1.parentElement.insertBefore(elA2, elA1);
+
+                //elA1.parentElement.appendChild(alA2);
+                elA2.innerHTML = "";
+                elA2.appendChild(aEl_factory());
 
             } else if (window.location.hostname.indexOf("3sat.de")>0){
                 //3sat style
-                const parent = window.v1 = v1.closest( ".content-box ");
-                const info = parent.querySelector("div.show-for-medium dt.attribute-list-title");
-                const info2 = info.cloneNode(true);
-                info.parentElement.appendChild(info2);
-                //info2.innerHTML = "<a href='"+ link + "'>💾 Download</a>";
-                //attribute-list-title
-                const a = document.createElement("a");
-                info2.innerHTML = "";
-                a.href = link;
-                a.text = "💾 Download";
-                info2.appendChild(a);
+                const parent = v1.closest( ".content-box ");
+                
+                //web layout
+                const elA1 = parent.querySelector("div.show-for-medium dt.attribute-list-title");
+                const elA2 = elA1.cloneNode(true);
+                elA1.parentElement.appendChild(elA2);
+                elA2.innerHTML = "";
+                elA2.appendChild(aEl_factory());
+
+                //mobile layout
+                const elB1 = parent.querySelector("div.main-content-left dl.a--attribute-list");
+                const elB2 = elB1.cloneNode(true);
+                elB1.parentElement.insertBefore(elB2, elB1);
+                elB2.innerHTML = "";
+                elB2.appendChild(aEl_factory());
+
             }
 
 
