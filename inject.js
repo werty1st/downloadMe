@@ -97,6 +97,40 @@ import * as JME from "./jmespath.js";
     }
 
 
+
+    function createZDFLink(aEl_factory, v1){
+        //zdf style
+        const parent = v1.closest( ".content-box" );
+        const elA1 = parent.querySelector(".teaser-info");
+        const elA2 = elA1.cloneNode(true);
+        elA1.parentElement.insertBefore(elA2, elA1);
+
+        //elA1.parentElement.appendChild(alA2);
+        elA2.innerHTML = "";
+        elA2.appendChild(aEl_factory());
+
+    }
+
+
+    function create3SatLink(aEl_factory, v1){
+        //3sat style
+        const parent = v1.closest( ".content-box" );
+        
+        //web layout
+        const elA1 = parent.querySelector("div.show-for-medium dt.attribute-list-title");
+        const elA2 = elA1.cloneNode(true);
+        elA1.parentElement.appendChild(elA2);
+        elA2.innerHTML = "";
+        elA2.appendChild(aEl_factory());
+
+        //mobile layout
+        const elB1 = parent.querySelector("div.main-content-left dl.a--attribute-list");
+        const elB2 = elB1.cloneNode(true);
+        elB1.parentElement.insertBefore(elB2, elB1);
+        elB2.innerHTML = "";
+        elB2.appendChild(aEl_factory());
+    }
+
     //find mp4 url and add Download link near corresponding video element
     function stage2(url, response){
 
@@ -111,37 +145,11 @@ import * as JME from "./jmespath.js";
 
             //detect 3sat OR zdf
             if (window.location.hostname.indexOf("zdf.de")>0){
-                //zdf style
-                const parent = v1.closest( ".x-row");
-                const elA1 = parent.querySelector(".teaser-info");
-                const elA2 = elA1.cloneNode(true);
-                elA1.parentElement.insertBefore(elA2, elA1);
-
-                //elA1.parentElement.appendChild(alA2);
-                elA2.innerHTML = "";
-                elA2.appendChild(aEl_factory());
+                createZDFLink(aEl_factory, v1);
 
             } else if (window.location.hostname.indexOf("3sat.de")>0){
-                //3sat style
-                const parent = v1.closest( ".content-box ");
-                
-                //web layout
-                const elA1 = parent.querySelector("div.show-for-medium dt.attribute-list-title");
-                const elA2 = elA1.cloneNode(true);
-                elA1.parentElement.appendChild(elA2);
-                elA2.innerHTML = "";
-                elA2.appendChild(aEl_factory());
-
-                //mobile layout
-                const elB1 = parent.querySelector("div.main-content-left dl.a--attribute-list");
-                const elB2 = elB1.cloneNode(true);
-                elB1.parentElement.insertBefore(elB2, elB1);
-                elB2.innerHTML = "";
-                elB2.appendChild(aEl_factory());
-
+                create3SatLink(aEl_factory, v1);
             }
-
-
 
         }
 
