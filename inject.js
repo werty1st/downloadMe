@@ -5,8 +5,10 @@ import * as JME from "./jmespath.js";
 
 (async function() {
 
-    const regex1 = /\.json\?profile=player2$/;
+    const regex1 = /\.json\?profile=player/;
     const regex2 = /^https:\/\/api\.(zdf|3sat)\.de\/tmd\/2\/ngplayer\w*\/\w*\/ptmd/;
+    //find profile
+    //const regex3 = /profile=([\w|-]+)/;
 
 
     const XHR = XMLHttpRequest.prototype;
@@ -91,7 +93,8 @@ import * as JME from "./jmespath.js";
         const data = JSON.parse(dataJ);
         const myurl = data.content;
 
-        if (myurl == url){
+        //fix mixed player profiles
+        if (myurl.split(/[?#]/)[0] == url.split(/[?#]/)[0]){
             store[basename] = video; //keep ref to video tag for later
         }
     }
